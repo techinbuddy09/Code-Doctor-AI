@@ -1,63 +1,301 @@
-# Code Doctor AI — Code Intelligence Lab
+# 🩺 Code Doctor AI
 
-Trace the cause. Review the fix.
+**AI-powered code analysis, debugging, security scanning, and automated fixing.**
 
-A local Streamlit application for analyzing public GitHub repositories, inspecting findings, applying suggested fixes, and exporting reports. Based on [Code Doctor AI](https://github.com/ashwinsk9841-bot/code-doctor-ai), under the original MIT license in LICENSE.
+Code Doctor AI is a developer-focused tool that analyzes source code, identifies potential issues, explains what went wrong, suggests or applies fixes, and verifies supported fixes.
 
-## Run on this computer
+It combines **static analysis, security checks, dependency scanning, AI-assisted code review, automated fixes, test generation, and reporting** into a single Streamlit application.
 
-The complete project and its installed virtual environment are in:
+---
 
-`C:\Users\Dell\Documents\ChatGPT\code_doctor_ai`
+## ✨ Features
 
-From PowerShell in that folder:
+### 🔍 Code Analysis
 
-```powershell
-.\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1
+* Parse and analyze source code
+* Detect common code quality and structural issues
+* Inspect source files and findings
+* Generate structured analysis reports
+
+### 🔐 Security Scanning
+
+* Pattern-based security checks
+* Credential and secret detection
+* Sensitive information redaction
+* Security-focused findings and remediation suggestions
+
+### 📦 Dependency Analysis
+
+* Inspect dependency declarations
+* Identify dependency-related issues
+* Analyze supported project configuration files
+
+### 🤖 AI-Powered Analysis
+
+Supports AI-assisted analysis through multiple providers:
+
+* OpenAI
+* Anthropic
+* Google Gemini
+
+AI capabilities can be used for:
+
+* Code explanations
+* Issue analysis
+* Suggested fixes
+* Code rewrites
+* Test generation
+
+### 🛠️ Automated Fixes
+
+* Apply supported fixes directly to source files
+* Review generated changes
+* Create backups before modifications
+* Revert changes when required
+
+### ✅ Verification
+
+* Re-check supported findings after fixes
+* Validate Python and JSON syntax
+* Track whether a finding has been verified
+* Keep unsupported or uncertain fixes marked as unverified rather than assuming success
+
+### 🧪 Testing
+
+* Automated test suite using Pytest
+* Test generation support
+* Optional local execution of repository tests
+* Mock-based testing for AI providers
+
+### 📊 Reports
+
+Generate structured reports containing:
+
+* Findings
+* Severity/details
+* Fix information
+* Verification status
+* Redacted source information
+
+---
+
+## 🏗️ Architecture
+
+```text
+                    ┌─────────────────────┐
+                    │   Streamlit UI      │
+                    │      app.py         │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Analysis Engine   │
+                    │       core/         │
+                    └──────────┬──────────┘
+                               │
+              ┌────────────────┼────────────────┐
+              ▼                ▼                ▼
+        Code Analysis     Security Scan    Dependency Scan
+              │                │                │
+              └────────────────┼────────────────┘
+                               ▼
+                    ┌─────────────────────┐
+                    │   AI Providers      │
+                    │ OpenAI / Gemini /    │
+                    │      Anthropic      │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Fix + Verify + Test │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Reports / Results   │
+                    └─────────────────────┘
 ```
 
-Open http://localhost:8501. Alternatively run `./run.ps1` if local script execution is enabled. The original `E:\coddy\app.py` was left untouched; it matched upstream exactly and was used as the starting entry point here.
+---
 
-No API key is needed for local static, security, and dependency scans. For AI features, create `.env` from `.env.example` and enter a real provider key. Do not commit `.env`. Model availability and live AI responses have not been validated with a real account.
+## 🧰 Tech Stack
 
-## Install on another computer
+| Category        | Technologies                              |
+| --------------- | ----------------------------------------- |
+| Language        | Python                                    |
+| UI              | Streamlit                                 |
+| AI              | OpenAI, Anthropic, Google Gemini          |
+| Static Analysis | Pygments, Pylint, Flake8, Pyflakes, Radon |
+| Security        | Bandit + custom security checks           |
+| Testing         | Pytest                                    |
+| Environment     | python-dotenv                             |
+| Code Processing | AST/parsing and diff utilities            |
+| Reporting       | Markdown / JSON                           |
 
-Use Python 3.10 or newer (this workspace was tested with Python 3.12):
+---
+
+## 📁 Project Structure
+
+```text
+Code-Doctor-AI/
+│
+├── core/
+│   ├── ai_provider.py
+│   ├── analyzer.py
+│   ├── code_parser.py
+│   ├── dependency_scanner.py
+│   ├── fixer.py
+│   ├── python_validation.py
+│   ├── reporter.py
+│   ├── repository.py
+│   ├── security_scanner.py
+│   ├── test_generator.py
+│   ├── test_runner.py
+│   ├── verifier.py
+│   └── workspace.py
+│
+├── ui/
+│   └── ...
+│
+├── utils/
+│   ├── file_handler.py
+│   ├── language_detector.py
+│   ├── redaction.py
+│   └── validators.py
+│
+├── tests/
+│   └── ...
+│
+├── app.py
+├── config.py
+├── conftest.py
+├── requirements.txt
+├── requirements-lock.txt
+├── .env.example
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/techinbuddy09/Code-Doctor-AI.git
+cd Code-Doctor-AI
+```
+
+### 2. Create a virtual environment
+
+**Windows:**
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\Activate.ps1
 ```
 
-`requirements-lock.txt` records the exact dependency versions installed in this Windows environment; use it instead of requirements.txt to reproduce this environment where compatible.
+**macOS / Linux:**
 
-## Features
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
 
-- Public GitHub repository downloads with archive path and size checks.
-- Static parsing, pattern-based security checks, and dependency declaration checks.
-- Optional bounded AI analysis with Gemini, Anthropic, or OpenAI.
-- Issue filters, source inspection, Python credential fixes, and AI rewrites.
-- Immutable per-fix backups with latest-change checks before reverting.
-- Verification that rechecks supported findings; passing tests alone does not prove an arbitrary AI finding resolved.
-- Optional local test execution, test draft generation/download, and Markdown/JSON reports.
-- Code Doctor AI branding and dark cyan/violet accents.
+### 3. Install dependencies
 
-## Execution and privacy behavior
+```bash
+pip install -r requirements.txt
+```
 
-Downloaded repository tests are disabled by default. Enable local execution only for code you trust: these tests run on this computer, without container isolation. Dependency installation for scanned repositories is not automated. Missing tools/dependencies can block their test runs. A restricted container runner remains future work for hosted or untrusted use.
+For a reproducible environment, `requirements-lock.txt` is also provided.
 
-Recognized credential formats are masked before AI analysis, in source previews, and in reports. This is pattern-based masking, not a guarantee that every possible secret is detected. AI full-file rewrites are blocked while recognized credentials remain in the file. Backups necessarily retain the original local source until workspace cleanup.
+### 4. Configure environment variables
 
-AI fixes can still alter behavior and require review. Deterministic verification covers recognized security findings and Python/JSON syntax; other fixes stay NOT_VERIFIED unless a supported check establishes resolution. Non-Python syntax validation is limited. Dashboard issue totals track the original findings and their verification states; start a new scan for a complete fresh analysis.
+Create a `.env` file from the example:
 
-## Tests
+```bash
+cp .env.example .env
+```
+
+On Windows PowerShell:
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest -q
+Copy-Item .env.example .env
 ```
 
-Tests cover scanners, providers using mocks, fix execution, immutable backups, verification, report redaction, archive checks, workspace isolation, and Streamlit scan/fix/report/revert/reset behavior. UI integration tests use a local fixture and do not call GitHub or an AI service.
+Add the required AI provider credentials to `.env` if you want to use AI-powered features.
 
-## Next UI phase
+> **Never commit `.env` or API keys to GitHub.**
 
-The repository map, side-by-side patch review, scan comparisons, and a full interactive workspace redesign described in PROJECT_REVIEW.md remain future work. This pass focuses on correctness and a runnable local foundation.
+### 5. Run the application
+
+```bash
+streamlit run app.py
+```
+
+The application will be available at:
+
+```text
+http://localhost:8501
+```
+
+---
+
+## 🧪 Running Tests
+
+Run the complete test suite with:
+
+```bash
+pytest -q
+```
+
+The test suite covers core analysis functionality, scanners, providers, fixing workflows, verification, reporting, workspace behavior, and UI-related flows.
+
+---
+
+## 🔒 Security & Privacy
+
+Code Doctor AI includes safeguards for working with source code:
+
+* Recognized credentials are redacted before AI analysis.
+* `.env` files are excluded from version control.
+* Local backups are maintained for supported fixes.
+* AI-generated changes are not automatically treated as verified.
+* Repository tests are not executed automatically unless explicitly enabled.
+
+### ⚠️ Running Repository Tests
+
+Downloaded repository tests can execute code on the local machine.
+
+Only enable local test execution for repositories you trust.
+
+A sandboxed/containerized execution environment is a planned future improvement.
+
+---
+
+## 🛣️ Roadmap
+
+* [ ] Expanded multi-language analysis
+* [ ] More security vulnerability patterns
+* [ ] Improved dependency vulnerability detection
+* [ ] Better AI fix verification
+* [ ] Interactive side-by-side patch review
+* [ ] Scan comparison across runs
+* [ ] Sandboxed test execution
+* [ ] Richer project/workspace visualization
+* [ ] CI/CD integration
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+See [LICENSE](LICENSE) for details.
+
+---
+
+## 👨‍💻 Project
+
+**Code Doctor AI** is designed as an AI-assisted developer tool for understanding, analyzing, fixing, and verifying code — bringing several stages of the debugging workflow into one application.
